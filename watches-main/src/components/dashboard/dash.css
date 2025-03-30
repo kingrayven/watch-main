@@ -1,0 +1,91 @@
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Color definitions */
+  .dashboard-container {
+    @apply bg-[#0A192F] text-[#EAEAEA];
+  }
+
+  .sidebar-toggle-btn {
+    @apply bg-[#C0C0C0] text-[#0A192F] hover:bg-[#0A2458] hover:text-[#C0C0C0];
+  }
+
+  .sidebar-container {
+    @apply bg-[#0A192F] border-r border-r-[rgba(192,192,192,0.1)];
+  }
+
+  .welcome-heading {
+    @apply text-[#C0C0C0];
+  }
+
+  .welcome-text {
+    @apply text-[#EAEAEA] opacity-90;
+  }
+
+  .sidebar-overlay {
+    @apply bg-[rgba(10,25,47,0.7)];
+  }
+
+  /* Custom scrollbar */
+  .main-content::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  .main-content::-webkit-scrollbar-track {
+    @apply bg-[rgba(10,25,47,0.8)];
+  }
+
+  .main-content::-webkit-scrollbar-thumb {
+    @apply bg-[#C0C0C0] rounded;
+  }
+
+  /* Overview styles */
+  .overview-container {
+    @apply bg-[#0A192F] text-[#EAEAEA];
+  }
+
+  .dashboard-card {
+    @apply bg-[#0A2458] border border-[#C0C0C0] border-opacity-20;
+  }
+
+  .dashboard-card-header {
+    @apply border-b border-[#C0C0C0] border-opacity-20;
+  }
+
+  .tabs-list {
+    @apply bg-[#0A2458] border border-[#C0C0C0] border-opacity-20;
+  }
+
+  .tabs-trigger {
+    @apply text-[#C0C0C0] hover:text-[#EAEAEA] data-[state=active]:bg-[#0A192F] data-[state=active]:text-[#EAEAEA];
+  }
+
+  .order-card {
+    @apply bg-[#0A2458] border border-[#C0C0C0] border-opacity-20 hover:bg-[#0A2458]/70;
+  }
+
+  .chart-tooltip {
+    @apply bg-[#0A2458] border border-[#C0C0C0] border-opacity-20 text-[#EAEAEA];
+  }
+
+  .button-primary {
+    @apply bg-[#C0C0C0] text-[#0A192F] hover:bg-[#A0A0A0] hover:text-[#EAEAEA];
+  }
+
+  .button-outline {
+    @apply border border-[#C0C0C0] text-[#C0C0C0] hover:bg-[#0A2458] hover:text-[#EAEAEA];
+  }
+}
+
+/* Add this to your dash.css file */
+a {
+  text-decoration: none !important;
+}
+
+.no-underline {
+  text-decoration: none !important;
+}
+
+
+

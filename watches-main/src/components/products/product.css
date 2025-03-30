@@ -1,0 +1,277 @@
+body {
+  background-color: #0A2E1F;
+  color: #F8F4E9;
+  font-family: 'Cormorant Garamond', serif, -apple-system, BlinkMacSystemFont, 
+              'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 
+              'Helvetica Neue', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  padding: 0;
+  margin: 0;
+}
+
+/* Layout Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ==================== */
+/* CARD & TYPOGRAPHY ENHANCEMENTS */
+/* ==================== */
+
+.card {
+  background-color: #082619;
+  color: #F8F4E9;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #D4AF37;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #FFD700;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #F8F4E9;
+  margin-bottom: 1.25rem;
+  border-bottom: 2px solid #D4AF37;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #D4AF37;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  color: rgba(248, 244, 233, 0.95);
+  max-width: 65ch;
+}
+
+/* ==================== */
+/* SPAN & CAPTION ENHANCEMENTS */
+/* ==================== */
+
+span {
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+span.text-gold {
+  color: #FFD700 !important;
+  font-weight: 600;
+}
+
+span.text-highlight {
+  background-color: rgba(212, 175, 55, 0.25);
+  color: #FFD700 !important;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+span.text-muted {
+  color: rgba(248, 244, 233, 0.7) !important;
+  font-style: italic;
+}
+
+table caption {
+  caption-side: bottom;
+  padding: 1.5rem 1rem 0.5rem;
+  color: #D4AF37 !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  width: 100%;
+}
+
+/* ==================== */
+/* TAB & TABLE ENHANCEMENTS */
+/* ==================== */
+
+.tabs {
+  display: flex;
+  gap: 0.75rem;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+  padding-bottom: 2px;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  border-radius: 6px 6px 0 0;
+  transition: all 0.3s ease;
+  color: rgba(248, 244, 233, 0.9);
+  background-color: rgba(10, 46, 31, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-bottom: none;
+}
+
+.tab.active {
+  color: #FFD700 !important;
+  background-color: #082619;
+  border-color: #D4AF37;
+  border-bottom: 2px solid #082619;
+  position: relative;
+  bottom: -2px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  margin-top: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #082619;
+}
+
+.table th {
+  background-color: rgba(212, 175, 55, 0.15);
+  color: #FFD700 !important;
+  padding: 1.25rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.table td {
+  padding: 1.25rem;
+  color: rgba(248, 244, 233, 0.95) !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  vertical-align: middle;
+}
+
+/* ==================== */
+/* BADGES & BUTTONS */
+/* ==================== */
+
+.badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.badge-green {
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #4ADE80 !important;
+  border: 1px solid #4ADE80;
+}
+
+.badge-yellow {
+  background-color: rgba(234, 179, 8, 0.2);
+  color: #FACC15 !important;
+  border: 1px solid #FACC15;
+}
+
+.badge-red {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #F87171 !important;
+  border: 1px solid #F87171;
+}
+
+.btn {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== */
+/* FORM ELEMENTS */
+/* ==================== */
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #FFD700 !important;
+  margin-bottom: 0.5rem;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==================== */
+/* RESPONSIVE ADJUSTMENTS */
+/* ==================== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  .tabs {
+    overflow-x: auto;
+    padding-bottom: 0;
+    scrollbar-width: none;
+  }
+  
+  table caption {
+    font-size: 0.85rem;
+    padding: 1rem 0.5rem 0.25rem;
+  }
+  
+  .table th, 
+  .table td {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  span.text-highlight {
+    padding: 0.1rem 0.3rem;
+  }
+}

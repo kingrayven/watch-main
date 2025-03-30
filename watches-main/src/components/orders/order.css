@@ -1,0 +1,132 @@
+/* Base Styles */
+.kanban-board {
+  font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  color: #F8F9FA;
+  line-height: 1.5;
+}
+
+/* Background */
+.kanban-board .bg-background {
+  background-color: #0A192F;
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+/* Text Styles */
+.kanban-board h1 {
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 2rem;
+  letter-spacing: 0.25px;
+  margin-bottom: 0.5rem;
+}
+
+.kanban-board .text-muted-foreground {
+  color: #C0C0C0;
+  opacity: 0.9;
+}
+
+/* Buttons */
+.kanban-board .button {
+  background-color: #C0C0C0;
+  color: #0A192F;
+  border: none;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kanban-board .button:hover {
+  background-color: #D1D1D1;
+  color: #0A192F;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.kanban-board .button-variant-outline {
+  background-color: transparent;
+  color: #F8F9FA;
+  border: 1px solid #C0C0C0;
+}
+
+.kanban-board .button-variant-outline:hover {
+  background-color: rgba(192, 192, 192, 0.15);
+  color: #FFFFFF;
+  border-color: #D1D1D1;
+}
+
+/* Cards */
+.kanban-board .card {
+  background-color: #112240;
+  border: 1px solid rgba(192, 192, 192, 0.15);
+  border-radius: 0.5rem;
+}
+
+.kanban-board .card-title {
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.kanban-board .card-content {
+  color: #E9ECEF;
+  padding: 1.5rem;
+}
+
+/* Inputs */
+.kanban-board .bg-background .input {
+  background-color: #112240;
+  border: 1px solid rgba(192, 192, 192, 0.15);
+  color: #F8F9FA;
+}
+
+/* Modals */
+.kanban-board .modal {
+  background-color: #112240;
+  border: 1px solid rgba(192, 192, 192, 0.3);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Tabs */
+.kanban-board .tabs-list {
+  background-color: rgba(192, 192, 192, 0.1);
+}
+
+.kanban-board .tabs-trigger[data-state='active'] {
+  background-color: #2563EB;
+  color: white;
+}
+
+/* Scrollbar */
+.kanban-board ::-webkit-scrollbar {
+  width: 10px;
+}
+
+.kanban-board ::-webkit-scrollbar-thumb {
+  background-color: rgba(192, 192, 192, 0.3);
+  border-radius: 5px;
+}
+
+.kanban-board ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(192, 192, 192, 0.5);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .kanban-board {
+    padding: 1rem;
+  }
+  
+  .kanban-board h1 {
+    font-size: 1.5rem;
+  }
+  
+  .kanban-board .button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}
