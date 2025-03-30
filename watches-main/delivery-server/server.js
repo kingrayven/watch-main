@@ -131,48 +131,11 @@ const authenticate = async (req, res, next) => {
 
 app.get("/api/analytics/summary", authenticate, async (req, res) => {
   try {
-    // Get all metrics in parallel for better performance
-    const [
-      [orders],
-      [revenue],
-      [products],
-      [deliveries],
-      [lastWeek],
-      [categories],
-      [customers]
-    ] = await Promise.all([
-      pool.query("SELECT COUNT(*) as totalOrders FROM orders"),
-      pool.query("SELECT SUM(total_amount) as totalRevenue FROM orders WHERE status = 'delivered'"),
-      pool.query("SELECT COUNT(*) as totalProducts FROM products WHERE is_active = TRUE"),
-      pool.query(`
-        SELECT COUNT(*) as pendingDeliveries 
-        FROM orders 
-        WHERE status IN ('pending', 'processing', 'shipped')
-      `),
-      pool.query(`
-        SELECT 
-          COUNT(*) as lastWeekOrders,
-          SUM(total_amount) as lastWeekRevenue,
-          (SELECT COUNT(*) FROM products WHERE created_at BETWEEN DATE_SUB(NOW(), INTERVAL 14 DAY) AND DATE_SUB(NOW(), INTERVAL 7 DAY)) as lastWeekProducts
-        FROM orders 
-        WHERE created_at BETWEEN DATE_SUB(NOW(), INTERVAL 14 DAY) AND DATE_SUB(NOW(), INTERVAL 7 DAY)
-      `),
-      pool.query("SELECT COUNT(*) as totalCategories FROM product_categories"),
-      pool.query("SELECT COUNT(*) as totalCustomers FROM users WHERE role = 'customer'")
-    ]);
-
-    // Calculate growth percentages
-    const orderGrowth = lastWeek[0].lastWeekOrders > 0 
-      ? ((orders[0].totalOrders - lastWeek[0].lastWeekOrders) / lastWeek[0].lastWeekOrders * 100).toFixed(1)
-      : 0;
-    
-    const revenueGrowth = lastWeek[0].lastWeekRevenue > 0 
-      ? ((revenue[0].totalRevenue - lastWeek[0].lastWeekRevenue) / lastWeek[0].lastWeekRevenue * 100).toFixed(1)
-      : 0;
-
-    const productGrowth = lastWeek[0].lastWeekProducts > 0
-      ? ((products[0].totalProducts - lastWeek[0].lastWeekProducts) / lastWeek[0].lastWeekProducts * 100).toFixed(1)
-      : 0;
+    // Get counts from database
+    const [orders] = await pool.query("SELECT COUNT(*) as totalOrders FROM orders");
+    const [revenue] = await pool.query("SELECT SUM(total_amount) as totalRevenue FROM orders WHERE status = 'delivered'");
+    const [products] = await pool.query("SELECT COUNT(*) as totalProducts FROM products");
+    const [deliveries] = await pool.query("SELECT COUNT(*) as pendingDeliveries FROM orders WHERE status IN ('pending', 'processing', 'shipped')");
 
     res.json({
       success: true,
@@ -180,23 +143,12 @@ app.get("/api/analytics/summary", authenticate, async (req, res) => {
         totalOrders: orders[0].totalOrders,
         totalRevenue: revenue[0].totalRevenue || 0,
         totalProducts: products[0].totalProducts,
-        pendingDeliveries: deliveries[0].pendingDeliveries,
-        totalCategories: categories[0].totalCategories,
-        totalCustomers: customers[0].totalCustomers,
-        growthMetrics: {
-          orders: parseFloat(orderGrowth),
-          revenue: parseFloat(revenueGrowth),
-          products: parseFloat(productGrowth)
-        }
+        pendingDeliveries: deliveries[0].pendingDeliveries
       }
     });
   } catch (error) {
     console.error("Error fetching analytics summary:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Failed to fetch analytics data",
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    res.status(500).json({ success: false, message: "Failed to fetch analytics data" });
   }
 });
 
@@ -207,15 +159,13 @@ app.get("/api/analytics/sales", authenticate, async (req, res) => {
     
     if (timeframe === "30days") dateRange = "30 DAY";
     if (timeframe === "90days") dateRange = "90 DAY";
-    if (timeframe === "12months") dateRange = "12 MONTH";
 
-    // Get sales data
+    // Query to get sales data grouped by date
     const [salesData] = await pool.query(`
       SELECT 
         DATE(created_at) as date,
         COUNT(*) as orders_count,
-        SUM(total_amount) as revenue,
-        AVG(total_amount) as average_order_value
+        SUM(total_amount) as revenue
       FROM orders
       WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL ${dateRange})
       GROUP BY DATE(created_at)
@@ -228,13 +178,13 @@ app.get("/api/analytics/sales", authenticate, async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching sales data:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Failed to fetch sales data",
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    res.status(500).json({ success: false, message: "Failed to fetch sales data" });
   }
 });
+
+// ======================
+// PRODUCTS ENDPOINTS
+// ======================
 
 app.get("/api/products", authenticate, async (req, res) => {
   try {
@@ -246,11 +196,9 @@ app.get("/api/products", authenticate, async (req, res) => {
         p.price,
         p.stock_quantity,
         p.is_active,
-        c.name as category_name,
-        c.category_id
+        c.name as category_name
       FROM products p
       LEFT JOIN product_categories c ON p.category_id = c.category_id
-      WHERE p.is_active = TRUE
     `);
 
     res.json({
@@ -259,13 +207,13 @@ app.get("/api/products", authenticate, async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching products:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Failed to fetch products",
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    res.status(500).json({ success: false, message: "Failed to fetch products" });
   }
 });
+
+// ======================
+// DELIVERY SERVICES ENDPOINTS
+// ======================
 
 app.get("/api/delivery-services", authenticate, async (req, res) => {
   try {
@@ -277,9 +225,8 @@ app.get("/api/delivery-services", authenticate, async (req, res) => {
         price,
         estimated_days,
         is_available,
-        image_url,
-        (SELECT COUNT(*) FROM orders WHERE delivery_service_id = ds.service_id) as order_count
-      FROM delivery_services ds
+        image_url
+      FROM delivery_services
       WHERE is_available = TRUE
     `);
 
@@ -289,13 +236,13 @@ app.get("/api/delivery-services", authenticate, async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching delivery services:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Failed to fetch delivery services",
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    res.status(500).json({ success: false, message: "Failed to fetch delivery services" });
   }
 });
+
+// ======================
+// ORDERS ENDPOINTS
+// ======================
 
 app.get("/api/orders/recent", authenticate, async (req, res) => {
   try {
@@ -307,8 +254,7 @@ app.get("/api/orders/recent", authenticate, async (req, res) => {
         o.total_amount,
         o.created_at,
         CONCAT(u.first_name, ' ', u.last_name) as customer_name,
-        ds.name as delivery_service,
-        (SELECT COUNT(*) FROM order_items WHERE order_id = o.order_id) as item_count
+        ds.name as delivery_service
       FROM orders o
       LEFT JOIN users u ON o.user_id = u.user_id
       LEFT JOIN delivery_services ds ON o.delivery_service_id = ds.service_id
@@ -322,11 +268,7 @@ app.get("/api/orders/recent", authenticate, async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching recent orders:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Failed to fetch recent orders",
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    res.status(500).json({ success: false, message: "Failed to fetch recent orders" });
   }
 });
 
